@@ -3,6 +3,11 @@
 
 
 class Ransac {
+public:
+    Ransac(int iteration, float error);
+private:
+    int iteration;
+    float error;
 };
 
 
