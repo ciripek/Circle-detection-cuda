@@ -5,6 +5,11 @@ set(CMAKE_CUDA_STANDARD 17)
 
 find_package(fmt REQUIRED)
 
+if (DEBUG)
+    add_definitions(-DDEBUG=1)
+endif (DEBUG)
+
+
 add_library(ransac STATIC Ransac.cu Ransac.cuh Point.cu Point.cuh Circle.cu Circle.cuh)
 set_target_properties(ransac PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
