@@ -7,6 +7,8 @@ add_library(ransac STATIC Ransac.cu Ransac.cuh Point.cu Point.cuh Circle.cu Circ
 set_target_properties(ransac PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
 
+target_compile_features(ransac PUBLIC cxx_std_17)
+
 
 
 add_executable(circle_detection_cuda main.cu)
