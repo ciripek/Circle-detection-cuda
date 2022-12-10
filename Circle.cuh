@@ -1,0 +1,41 @@
+//
+// Created by bence on 2022.12.10..
+//
+
+#ifndef CIRCLE_DETECTION_CUDA_CIRCLE_CUH
+#define CIRCLE_DETECTION_CUDA_CIRCLE_CUH
+
+#include "Point.cuh"
+
+#include <cuda/std/array>
+
+class Circle {
+public:
+    __device__ __host__ Circle();
+    __device__ __host__ Circle(const Point &center, float radius);
+    __device__ __host__ static Circle CircleFromThreePoints(const Point &p1, const Point &p2, const Point &p3);
+
+    __device__ __host__ static Circle CircleFromThreePoints(const cuda::std::array<Point, 3> &arr);
+
+    [[nodiscard]] __device__ __host__ const Point &getCenter() const;
+
+    void __device__ __host__ setCenter(const Point &center);
+
+    [[nodiscard]] __device__ __host__ float getRadius() const;
+
+    __device__ __host__ void setRadius(float radius);
+
+    [[nodiscard]] __device__ __host__ int getSupportedPoints() const;
+
+    __device__ __host__ void setSupportedPoints(int supportedPoints);
+
+    [[nodiscard]] __device__ __host__ bool is_point_supported(const Point &point, float error) const;
+
+private:
+    Point center;
+    float radius;
+    int supported_points;
+};
+
+
+#endif //CIRCLE_DETECTION_CUDA_CIRCLE_CUH

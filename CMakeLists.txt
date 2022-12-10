@@ -3,7 +3,7 @@ project(circle_detection_cuda CUDA)
 
 set(CMAKE_CUDA_STANDARD 17)
 
-add_library(ransac STATIC Ransac.cu Ransac.cuh Point.cu Point.cuh)
+add_library(ransac STATIC Ransac.cu Ransac.cuh Point.cu Point.cuh Circle.cu Circle.cuh)
 set_target_properties(ransac PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
 
