@@ -18,5 +18,4 @@ private:
     void read_file(const char* filename,std::vector<Point> &dataPoints);
 };
 
-
 #endif //CIRCLE_DETECTION_CUDA_RANSAC_CUH
