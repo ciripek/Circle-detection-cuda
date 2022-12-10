@@ -1,7 +1,3 @@
-//
-// Created by bence on 2022.12.10..
-//
-
 #include "Point.cuh"
 
 __device__ __host__ Point::Point(float x, float y) : x(x), y(y) {}
