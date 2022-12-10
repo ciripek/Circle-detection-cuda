@@ -9,6 +9,8 @@ class Ransac {
 public:
      Ransac() = default;
      Ransac(int iteration, float error);
+
+     void run(const char* filename);
 private:
     int iteration;
     float error;

@@ -15,7 +15,7 @@ target_compile_features(ransac PUBLIC cxx_std_17)
 
 
 add_executable(circle_detection_cuda main.cu)
-target_link_libraries(circle_detection_cuda ransac)
+target_link_libraries(circle_detection_cuda ransac fmt::fmt)
 
 set_target_properties(circle_detection_cuda PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
