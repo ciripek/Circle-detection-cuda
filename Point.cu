@@ -17,3 +17,13 @@ __device__ __host__ float Point::getY() const {
 __device__ __host__ void Point::setY(float y) {
     Point::y = y;
 }
+
+__host__ std::ostream &operator<<(std::ostream &os, const Point &point) {
+    os << "x: " << point.x << " y: " << point.y;
+    return os;
+}
+
+__host__ std::istream &operator>>(std::istream &is, Point &point) {
+    is >> point.x >> point.y;
+    return is;
+}
