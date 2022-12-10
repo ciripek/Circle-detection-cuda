@@ -3,6 +3,8 @@
 
 
 #include <iostream>
+#include <fmt/format.h>
+
 
 class Point {
 public:
@@ -23,5 +25,16 @@ private:
     float x, y;
 };
 
+
+template <> struct fmt::formatter<Point> {
+    constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {
+        return ctx.begin();
+    }
+
+    template <typename FormatContext>
+    auto format(const Point& p, FormatContext& ctx) const -> decltype(ctx.out()) {
+        return fmt::format_to(ctx.out(), "(x: {}, y: {})", p.getX(), p.getY());
+    }
+};
 
 #endif //CIRCLE_DETECTION_CUDA_POINT_CUH

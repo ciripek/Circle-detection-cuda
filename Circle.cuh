@@ -8,6 +8,7 @@
 #include "Point.cuh"
 
 #include <cuda/std/array>
+#include <fmt/format.h>
 
 class Circle {
 public:
@@ -35,6 +36,18 @@ private:
     Point center;
     float radius;
     int supported_points;
+};
+
+template <> struct fmt::formatter<Circle> {
+    constexpr auto parse(format_parse_context& ctx) -> decltype(ctx.begin()) {
+        return ctx.begin();
+    }
+
+    template <typename FormatContext>
+    auto format(const Circle& circle, FormatContext& ctx) const -> decltype(ctx.out()) {
+        return fmt::format_to(ctx.out(), "(center: {}, radius: {}, supported points: {})", circle.getCenter(),
+                              circle.getRadius(), circle.getSupportedPoints());
+    }
 };
 
 
