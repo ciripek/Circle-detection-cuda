@@ -68,7 +68,8 @@ void Ransac::run(const char *filename) {
     size_t byte = points.size() > GLOBAL_ARRAY_SIZE ? GLOBAL_ARRAY_SIZE * point_size : points.size() * point_size;
     size_t numberofelements = points.size();
     CUDA_CHECK(cudaMemcpyToSymbol(GLOBAL_POINTS, points.data(), byte));
-    CUDA_CHECK(cudaMemcpyToSymbol(GLOBAL_POINTS_SIZE, &numberofelements, sizeof(numberofelements)))
+    CUDA_CHECK(cudaMemcpyToSymbol(GLOBAL_POINTS_SIZE, &numberofelements, sizeof(numberofelements)));
+    CUDA_CHECK(cudaMemcpyToSymbol(ERROR, &error, sizeof(error)));
 
     ransac_kernel<<<iteration, maxThreadsPerBlock>>>();
 
