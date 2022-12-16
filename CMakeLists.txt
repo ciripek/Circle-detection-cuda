@@ -10,7 +10,7 @@ if (DEBUG)
 endif (DEBUG)
 
 
-add_library(ransac STATIC src/Ransac.cu src/Ransac.cuh src/Point.cu src/Point.cuh src/Circle.cu src/Circle.cuh src/cudaError.cuh)
+add_library(ransac STATIC src/Ransac.cu src/Ransac.cuh src/Point.cu src/Point.cuh src/Circle.cu src/Circle.cuh src/cudaError.cuh src/kernel.cu src/kernel.cuh)
 set_target_properties(ransac PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
 target_link_libraries(ransac fmt::fmt)

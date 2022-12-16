@@ -6,6 +6,7 @@
 #include <limits>
 
 #include "cudaError.cuh"
+#include "kernel.cuh"
 
 constexpr static size_t point_size = sizeof(Point);
 
@@ -62,4 +63,14 @@ void Ransac::run(const char *filename) {
     fmt::print("Points = {}\n", points);
 #endif
     const auto &[dev, maxThreadsPerBlock] = getDeviceInfo();
+    cudaSetDevice(dev);
+
+    size_t byte = points.size() > GLOBAL_ARRAY_SIZE ? GLOBAL_ARRAY_SIZE * point_size : points.size() * point_size;
+    size_t numberofelements = points.size();
+    CUDA_CHECK(cudaMemcpyToSymbol(GLOBAL_POINTS, points.data(), byte));
+    CUDA_CHECK(cudaMemcpyToSymbol(GLOBAL_POINTS_SIZE, &numberofelements, sizeof(numberofelements)))
+
+    ransac_kernel<<<iteration, maxThreadsPerBlock>>>();
+
+    CUDA_CHECK(cudaDeviceSynchronize());
 }
