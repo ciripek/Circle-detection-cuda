@@ -3,6 +3,8 @@
 #include <cuda/std/array>
 #include <curand_kernel.h>
 
+#include "Circle.cuh"
+
 __constant__ Point GLOBAL_POINTS[GLOBAL_ARRAY_SIZE];
 __constant__ size_t GLOBAL_POINTS_SIZE;
 
@@ -10,6 +12,7 @@ __device__ static cuda::std::array<Point,3> getRandomNumber();
 
 __global__ void ransac_kernel() {
     const cuda::std::array<Point,3>  randomPoints = getRandomNumber();
+    Circle circle = Circle::CircleFromThreePoints(randomPoints);
 }
 
 __device__ static cuda::std::array<Point,3> getRandomNumber() {
