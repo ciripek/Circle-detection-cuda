@@ -1,13 +1,11 @@
 
 #include "Circle.cuh"
 
-#include <limits>
 #include <cuda/std/cmath>
+#include <limits>
 
 
 constexpr static int int_min = std::numeric_limits<int>::min();
-
-__device__ __host__ Circle::Circle() : radius(0.0), supported_points(int_min) {}
 
 __device__ __host__ Circle::Circle(const Point &center, float radius) : center(center), radius(radius),supported_points(int_min) {}
 

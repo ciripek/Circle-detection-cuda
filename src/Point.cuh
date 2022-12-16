@@ -8,7 +8,8 @@
 
 class Point {
 public:
-    __device__ __host__ explicit Point(float x  = 0.F, float y = 0.f);
+    Point() = default;
+    __device__ __host__ explicit Point(float x, float y);
 
     [[nodiscard]] __device__ __host__ float getX() const;
 

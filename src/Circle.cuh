@@ -12,7 +12,7 @@
 
 class Circle {
 public:
-    __device__ __host__ Circle();
+    Circle() = default;
     __device__ __host__ Circle(const Point &center, float radius);
     __device__ __host__ static Circle CircleFromThreePoints(const Point &p1, const Point &p2, const Point &p3);
 
