@@ -19,6 +19,7 @@ private:
     Circle bestCircle;
 
     void read_file(const char* filename,std::vector<Point> &dataPoints);
+    void write_to_image(const char* filename, const std::vector<Point>& points);
     std::pair<int, int> getDeviceInfo();
 };
 

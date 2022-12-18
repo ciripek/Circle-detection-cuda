@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(circle_detection_cuda CUDA)
+project(circle_detection_cuda CUDA CXX)
 
 set(CMAKE_CUDA_STANDARD 17)
 
@@ -13,11 +13,13 @@ if (DEBUG)
     add_definitions(-DDEBUG=1)
 endif (DEBUG)
 
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 add_library(ransac STATIC src/Ransac.cu src/Ransac.cuh src/Point.cu src/Point.cuh src/Circle.cu src/Circle.cuh src/cudaError.cuh src/kernel.cu src/kernel.cuh)
 set_target_properties(ransac PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
-target_link_libraries(ransac fmt::fmt)
+target_link_libraries(ransac fmt::fmt ${OpenCV_LIBS})
 
 target_compile_features(ransac PUBLIC cxx_std_17)
 
