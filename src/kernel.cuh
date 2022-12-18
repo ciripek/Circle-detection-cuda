@@ -9,7 +9,7 @@
 
 extern __constant__ Point GLOBAL_POINTS[GLOBAL_ARRAY_SIZE];
 extern __constant__ size_t GLOBAL_POINTS_SIZE;
-extern __constant__ int ERROR;
+extern __constant__ float ERROR;
 
 __global__ void ransac_kernel();
 

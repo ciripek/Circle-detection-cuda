@@ -7,7 +7,7 @@
 
 __constant__ Point GLOBAL_POINTS[GLOBAL_ARRAY_SIZE];
 __constant__ size_t GLOBAL_POINTS_SIZE;
-__constant__ int ERROR;
+__constant__ float ERROR;
 
 __device__ static cuda::std::array<Point,3> getRandomNumber();
 __device__ static void count(Circle& circle);
