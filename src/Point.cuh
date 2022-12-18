@@ -23,7 +23,7 @@ public:
     friend __host__ std::istream &operator>>(std::istream &is, Point& point);
 
 private:
-    float x, y;
+    float x{}, y{};
 };
 
 

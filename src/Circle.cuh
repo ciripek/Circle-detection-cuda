@@ -34,8 +34,8 @@ public:
 
 private:
     Point center;
-    float radius;
-    int supported_points;
+    float radius{};
+    int supported_points{};
 };
 
 template <> struct fmt::formatter<Circle> {
