@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Point.cuh"
+#include "Circle.cuh"
 
 class Ransac {
 public:
@@ -15,6 +16,7 @@ public:
 private:
     int iteration;
     float error;
+    Circle bestCircle;
 
     void read_file(const char* filename,std::vector<Point> &dataPoints);
     std::pair<int, int> getDeviceInfo();

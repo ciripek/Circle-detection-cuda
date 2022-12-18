@@ -1,6 +1,9 @@
 #include "kernel.cuh"
 
 #include <cuda/std/array>
+#if defined(USE_SEMAPHORE)
+#include <cuda/semaphore>
+#endif
 #include <curand_kernel.h>
 
 #include "Circle.cuh"
@@ -11,11 +14,18 @@ __constant__ float ERROR;
 
 __device__ static cuda::std::array<Point,3> getRandomNumber();
 __device__ static void count(Circle& circle);
+#if defined(USE_SEMAPHORE)
+__device__  cuda::binary_semaphore<cuda::thread_scope_device> binarySemaphore{1};
+__device__ static void max(Circle* bestCircle, const Circle& circle);
+#endif
 
-__global__ void ransac_kernel() {
+__global__ void ransac_kernel(Circle* bestCircle) {
     const cuda::std::array<Point,3>  randomPoints = getRandomNumber();
     Circle circle = Circle::CircleFromThreePoints(randomPoints);
     count(circle);
+#if defined(USE_SEMAPHORE)
+    max(bestCircle, circle);
+#endif
 }
 
 __device__ static cuda::std::array<Point,3> getRandomNumber() {
@@ -48,3 +58,15 @@ __device__ static void count(Circle& circle){
     }
     circle.setSupportedPoints(db);
 }
+
+#if defined(USE_SEMAPHORE)
+__device__ static void max(Circle* bestCircle, const Circle& circle){
+    binarySemaphore.acquire();
+
+    if (bestCircle->getSupportedPoints() < circle.getSupportedPoints()){
+        *bestCircle = circle;
+    }
+
+    binarySemaphore.release();
+}
+#endif

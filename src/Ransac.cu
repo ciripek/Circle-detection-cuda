@@ -71,7 +71,18 @@ void Ransac::run(const char *filename) {
     CUDA_CHECK(cudaMemcpyToSymbol(GLOBAL_POINTS_SIZE, &numberofelements, sizeof(numberofelements)));
     CUDA_CHECK(cudaMemcpyToSymbol(ERROR, &error, sizeof(error)));
 
-    ransac_kernel<<<iteration, maxThreadsPerBlock>>>();
+#if defined(USE_SEMAPHORE)
+    Circle* circle;
+    cudaMallocManaged(&circle, sizeof(Circle));
+    *circle = Circle{};
+#endif
 
+    ransac_kernel<<<iteration, maxThreadsPerBlock>>>(circle);
     CUDA_CHECK(cudaDeviceSynchronize());
+
+#if defined(USE_SEMAPHORE)
+    bestCircle = *circle;
+#endif
+
+    cudaFree(circle);
 }

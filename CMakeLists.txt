@@ -5,6 +5,10 @@ set(CMAKE_CUDA_STANDARD 17)
 
 find_package(fmt REQUIRED)
 
+if (USE_SEMAPHORE)
+    add_definitions(-DUSE_SEMAPHORE)
+endif (USE_SEMAPHORE)
+
 if (DEBUG)
     add_definitions(-DDEBUG=1)
 endif (DEBUG)
