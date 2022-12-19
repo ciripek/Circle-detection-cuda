@@ -25,6 +25,9 @@ __global__ void ransac_kernel(Circle* bestCircle) {
     count(circle);
 #if defined(USE_SEMAPHORE)
     max(bestCircle, circle);
+#else
+    unsigned id = threadIdx.x + blockIdx.x * blockDim.x;
+    bestCircle[id] = circle;
 #endif
 }
 
@@ -68,5 +71,31 @@ __device__ static void max(Circle* bestCircle, const Circle& circle){
     }
 
     binarySemaphore.release();
+}
+#else
+__global__ void max_search(Circle* circles){
+    extern __shared__ Circle data[];
+    unsigned global_id = threadIdx.x + blockIdx.x * blockDim.x;
+    unsigned local_id = threadIdx.x;
+
+    data[local_id] = circles[global_id];
+    __syncthreads();
+
+    for (unsigned stride = blockDim.x / 2; stride > 0; stride >>= 1) {
+        if (local_id < stride) {
+            unsigned left = local_id;
+            unsigned right = left + stride;
+
+            if (data[right].getSupportedPoints() > data[left].getSupportedPoints()){
+                data[left] = data[right];
+            }
+        }
+        __syncthreads();
+    }
+
+    if (local_id == 0) {
+        circles[blockIdx.x] = data[0];
+    }
+
 }
 #endif

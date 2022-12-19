@@ -96,6 +96,9 @@ void Ransac::run(const char *filename) {
     Circle* circle;
     cudaMallocManaged(&circle, sizeof(Circle));
     *circle = Circle{};
+#else
+    Circle* circle;
+    CUDA_CHECK(cudaMalloc(&circle, iteration * maxThreadsPerBlock * sizeof(Circle)));
 #endif
 
     ransac_kernel<<<iteration, maxThreadsPerBlock>>>(circle);
@@ -103,6 +106,17 @@ void Ransac::run(const char *filename) {
 
 #if defined(USE_SEMAPHORE)
     bestCircle = *circle;
+#else
+    int dbThreads = maxThreadsPerBlock;
+    int dbBlock = iteration;
+
+    while (dbBlock > 1){
+        max_search<<<dbBlock, dbThreads, dbThreads * sizeof(Circle)>>>(circle);
+        CUDA_CHECK(cudaDeviceSynchronize());
+        dbBlock /= dbThreads;
+    }
+    max_search<<<1, dbThreads, dbThreads * sizeof(Circle)>>>(circle);
+    CUDA_CHECK(cudaMemcpy(&bestCircle, circle, sizeof(Circle), cudaMemcpyDeviceToHost));
 #endif
 
     cudaFree(circle);
