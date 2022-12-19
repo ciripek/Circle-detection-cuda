@@ -31,3 +31,8 @@ target_compile_features(circle_detection_cuda PUBLIC cxx_std_17)
 
 set_target_properties(circle_detection_cuda PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
+
+
+add_executable(info src/info.cu)
+set_target_properties(info PROPERTIES
+        CUDA_SEPARABLE_COMPILATION ON)
