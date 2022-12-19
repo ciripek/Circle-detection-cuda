@@ -1,4 +1,3 @@
-
 #include "Circle.cuh"
 
 #include <cuda/std/cmath>

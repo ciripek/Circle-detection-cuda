@@ -1,7 +1,3 @@
-//
-// Created by bence on 2022.12.14..
-//
-
 #ifndef CIRCLE_DETECTION_CUDA_CUDAERROR_CUH
 #define CIRCLE_DETECTION_CUDA_CUDAERROR_CUH
 
