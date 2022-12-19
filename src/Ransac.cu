@@ -121,5 +121,6 @@ void Ransac::run(const char *filename) {
 
     cudaFree(circle);
 
+    fmt::print("The best circle: {}", bestCircle);
     write_to_image("test.png", points);
 }
