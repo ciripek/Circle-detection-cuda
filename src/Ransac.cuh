@@ -14,8 +14,8 @@ public:
 
      void run(const char* filename);
 private:
-    int iteration;
-    float error;
+    int iteration = 1024;
+    float error = 1.f;
     Circle bestCircle;
 
     void read_file(const char* filename,std::vector<Point> &dataPoints);
